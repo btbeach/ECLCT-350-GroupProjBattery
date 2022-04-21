@@ -45,7 +45,7 @@ int main()
 	Plotter plotter("Project", 1000, 600);
 	plotter.SetLabels("vBatt (V)", "iBatt (A)", "SOC");
 
-	Simulator simulator(2, 0);
+	Simulator simulator(6, 0);
 
 	//VoltageSource V1(1, 0, 0, Va, f);
 	//Diode D1(1, 2);
