@@ -20,7 +20,7 @@ class Capacitor : public Device
     double GetVoltage();
     double GetCurrent();
     double GetPower();
-    double GetC(int nodei, int nodej, double soc);
+    double GetC(double soc, double A, double k, double a0);
 
     // Member variables:
     
@@ -28,7 +28,10 @@ class Capacitor : public Device
     int nodej;
     int nodepos;
     double C;
-    double Ct2;
+    double soc;
+    double A;
+    double k;
+    double a0;
 };
 
 Capacitor::Capacitor(int nodei, int nodej, double C)
@@ -37,15 +40,16 @@ Capacitor::Capacitor(int nodei, int nodej, double C)
     this->nodej = nodej;
     this->nodepos = nodepos;
     this->C = C;
-    this->Ct2 = Ct2;
+    this->soc = soc;
+    this->A = A;
+    this->k = k;
+    this->a0 = a0;
 }
 
 void Capacitor::Step(double t, double dt)
 {
-    double g = C / dt;
-    double g2 = Ct2 / dt;
+    double g = GetC(soc, A, k, a0) / dt;
     double b = g * GetStateDifference(nodei, nodej);  // g * v(t)
-    double b2 = g2 * GetStateDifference(nodei, nodej);  // g * v(t)
 
     AddJacobian(nodei, nodei, g);
     AddJacobian(nodei, nodej, -g);
@@ -81,18 +85,8 @@ double Capacitor::GetPower()
 {
     return GetVoltage() * GetCurrent();
 }
-double Capacitor::GetC(int nodei,int nodej, double soc)
+double Capacitor::GetC(double soc, double A, double k, double a0)
 {
-    if (nodei = 3 && nodej = 4)
-    {
-        return -7522.9 * exp(-13.51 * soc) + 703.6;
-    }
-    if (nodei == 4 && nodej = nodepos)
-    {
-        return -6056.0 * exp(-27.12 * soc) + 4475;
-    }
+    return A * exp(k * soc) + a0;
 }
-double Capacitor::GetCt2(double soc)
-{
-    return -6056.0 * exp(-27.12 * soc) + 4475;
-}
+
