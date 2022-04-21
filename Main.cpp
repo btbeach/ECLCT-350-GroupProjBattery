@@ -47,14 +47,14 @@ int main()
 
 	Simulator simulator(2, 0);
 
-	VoltageSource V1(1, 0, 0, Va, f);
+	//VoltageSource V1(1, 0, 0, Va, f);
 	//Diode D1(1, 2);
-	Resistor Rin(1, 2, Rin);
+	//Resistor Rin(1, 2, Rin);
 	Resistor Rt1(2, 3, R);
 	Capacitor Ct1(2, 0, C);
 	Resistor Rt2(3, 4, R);
 	Capacitor Ct2(3, 4, C);
-	Battery Batt(4, 0, 8.1, 0.9);
+	Battery Batt(4, 0, 0.9);
 
 	simulator.AddDevice(V1);
 	simulator.AddDevice(Rin);

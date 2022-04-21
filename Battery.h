@@ -143,6 +143,7 @@ public:
     int nodeneg;
     int int1;
     int int2;
+    int int3;
     double soci;
     double soc;  // state of charge
 };
@@ -155,7 +156,10 @@ Battery::Battery(int nodepos, int nodeneg, double soci)
 void Battery::Init()
 {
     int1 = GetNextNode();
+    //int1 = 1;
     int2 = GetNextNode();
+    //int2 = 5; internal Vin node 5 or 2
+    int3 = GetNextNode();
     soc = soci;
 }
 void Battery::Step(double t, double h)
@@ -164,8 +168,8 @@ void Battery::Step(double t, double h)
     double g = 1 / GetR(soc);
     double wh = 8.1;
     // R:
-    AddJacobian(nodepos, nodepos, g);
-    AddJacobian(nodepos, int1, -g);
+    AddJacobian(int3, int3, g);
+    AddJacobian(int3, int1, -g);
     AddJacobian(int1, nodeneg, -g);
     AddJacobian(int1, int1, g);
     //Vin
