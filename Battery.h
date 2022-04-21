@@ -103,7 +103,10 @@ double Battery::GetSOC()
 //}
 */
 // Simplified Battery Model
+
 #include "Simulator.h"
+#include <cmath>
+
 class Battery : public Device
 {
     /*
@@ -190,10 +193,10 @@ double Battery::GetVin(double soc)
 {
     //return 3.8 * soc;  // simple linear model
     return (-1.031) * exp(-35.0 * soc) + 3.685 + 0.2156 * soc +
-    -0.1178 * (soc)^2 + 0.3201 * (soc)^3;
+    -0.1178 * pow(soc, 2) + 0.3201 * pow(soc, 3);
 }
 double Battery::GetR(double soc)
 {
     //return 0.1 + (1 - soc) * 0.01;  // simple linear model
-    return 0.1562 * exp(-24.37 * soc) + 
+    return 0.1562 * exp(-24.37 * soc) + 0.07446;
 }

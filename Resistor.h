@@ -39,7 +39,7 @@ Resistor::Resistor(int nodei, int nodej,int n, double R)
     {
         R = ;
     }
-    if (m == 2)
+    if (n == 2)
     {
         R = ;
     }
