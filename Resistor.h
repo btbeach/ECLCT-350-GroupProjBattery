@@ -1,5 +1,6 @@
 
 #include "Simulator.h"
+#include "Battery.h"
 
 class Resistor : public Device
 {
@@ -37,7 +38,7 @@ Resistor::Resistor(int nodei, int nodej,int n, double R)
 
     if (n == 1)
     {
-        R = ;
+        R = 0.3208 * exp(-24.37 * Battery::GetSOC()) + 1;
     }
     if (n == 2)
     {

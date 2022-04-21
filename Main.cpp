@@ -43,33 +43,34 @@ int main()
 	//const double C = 1e-3;
 
 	Plotter plotter("Project", 1000, 600);
-	plotter.SetLabels("vin (V)", "iR (A)", "vout (V)");
+	plotter.SetLabels("vBatt (V)", "iBatt (A)", "SOC");
 
 	Simulator simulator(2, 0);
 
 	//VoltageSource V1(1, 0, 0, Va, f);
 	//Diode D1(1, 2);
 	//Resistor Rin(1, 2, Rin);
-	Resistor Rt1(2, 3, R);
-	Capacitor Ct1(2, 0, C);
-	Resistor Rt2(3, 4, R);
-	Capacitor Ct2(3, 4, C);
+	//Resistor Rt1(2, 3, R);
+	//Capacitor Ct1(2, 0, C);
+	//Resistor Rt2(3, 4, R);
+	//Capacitor Ct2(3, 4, C);
 	Battery Batt(4, 0, 0.9);
 
-	simulator.AddDevice(V1);
-	simulator.AddDevice(Rin);
-	simulator.AddDevice(Rt1);
-	simulator.AddDevice(Ct1);
-	simulator.AddDevice(Rt2);
-	simulator.AddDevice(Ct2);
+	//simulator.AddDevice(V1);
+	//simulator.AddDevice(Rin);
+	//simulator.AddDevice(Rt1);
+	//simulator.AddDevice(Ct1);
+	//simulator.AddDevice(Rt2);
+	//simulator.AddDevice(Ct2);
 	simulator.AddDevice(Batt);
 
 	simulator.Init(h, tmax);
 
 	while (simulator.IsRunning())
 	{
-		plotter.AddRow(simulator.GetTime(), V1.GetVoltage(),
-			R1.GetCurrent(), C1.GetVoltage());
+		plotter.AddRow(simulator.GetTime(), Batt.GetVoltage(),
+			Batt.GetCurrent(), Batt.GetSOC()); 
+		//, C1.GetVoltage());
 		
 		simulator.Step();
 	}
