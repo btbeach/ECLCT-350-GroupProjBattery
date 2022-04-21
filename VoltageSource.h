@@ -76,7 +76,7 @@ void VoltageSource::Step(double t, double dt)
     AddJacobian(nodej, nodep, -1.0);
     AddJacobian(nodep, nodei, 1.0);
     AddJacobian(nodep, nodej, -1.0);
-    AddBEquivalent(nodep, v);
+    //AddBEquivalent(nodep, v);
 }
 
 void VoltageSource::DC()
@@ -85,7 +85,7 @@ void VoltageSource::DC()
     AddJacobian(nodej, nodep, 1.0);
     AddJacobian(nodep, nodei, -1.0);
     AddJacobian(nodep, nodej, 1.0);
-    AddBEquivalent(nodep, Vdc);
+    //AddBEquivalent(nodep, Vdc);
 }
 
 double VoltageSource::GetVoltage()

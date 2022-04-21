@@ -36,14 +36,14 @@ Resistor::Resistor(int nodei, int nodej,int n, double R)
     this->n = n;
     this->R = R;
 
-    if (n == 1)
+    /*if (n == 1)
     {
         R = 0.3208 * exp(-24.37 * Battery::GetSOC()) + 1;
     }
     if (n == 2)
     {
         R = ;
-    }
+    }*/
 
     g = 1.0 / R;
 }
