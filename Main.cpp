@@ -50,18 +50,18 @@ int main()
 	//VoltageSource V1(1, 0, 0, Va, f);
 	//Diode D1(1, 2);
 	//Resistor Rin(1, 2, Rin);
-	//Resistor Rt1(2, 3, R);
-	//Capacitor Ct1(2, 0, C);
-	//Resistor Rt2(3, 4, R);
-	//Capacitor Ct2(3, 4, C);
-	Battery Batt(4, 0, 0.9);
+	Resistor Rt1(1, 2, 0.3208, -29.14, 0.04669);
+	Capacitor Ct1(1, 2, -752.9, -13.51, 703.6);
+	Resistor Rt2(3, 4, 6.603, -155.2, 0.04984);
+	Capacitor Ct2(3, 4, -6056.0, -27.12, 4475.0);
+	Battery Batt(2, 0, 0.9);
 
 	//simulator.AddDevice(V1);
 	//simulator.AddDevice(Rin);
-	//simulator.AddDevice(Rt1);
-	//simulator.AddDevice(Ct1);
-	//simulator.AddDevice(Rt2);
-	//simulator.AddDevice(Ct2);
+	simulator.AddDevice(Rt1);
+	simulator.AddDevice(Ct1);
+	simulator.AddDevice(Rt2);
+	simulator.AddDevice(Ct2);
 	simulator.AddDevice(Batt);
 
 	simulator.Init(h, tmax);

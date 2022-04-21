@@ -1,9 +1,10 @@
-/*
-#include "Simulator.h"
+
+//#include "Simulator.h"
 
 //Trouble in GetSOC function when mulitplying by step h
 
-class Battery : public Device
+//class Battery : public Device
+/*
 {
     public:
 
@@ -128,30 +129,34 @@ class Battery : public Device
 public:
     // Constructor (external nodes and params):
     Battery(int nodepos, int nodeneg, double soci);
+
     // Device interface:
     void Step(double t, double dt);
     void Init();
+
     // Viewable functions:
     double GetVoltage();
     double GetCurrent();
     double GetSOC();
+
     // f(soc) functions:
     double GetVin(double soc);
     double GetR(double soc);
 
-    double GetRt1(double soc);
+    /*double GetRt1(double soc);
     double GetRt2(double soc);
     double GetCt1(double soc);
-    double GetCt2(double soc);
+    double GetCt2(double soc);*/
 
     // Member variables:
     int nodepos;
     int nodeneg;
     int int1;
     int int2;
-    int int3;
-    int int4;
+    /*int int3;
+    int int4;*/
     double soci;
+
     double soc;  // state of charge
 };
 Battery::Battery(int nodepos, int nodeneg, double soci)
@@ -164,25 +169,24 @@ Battery::Battery(int nodepos, int nodeneg, double soci)
 void Battery::Init()
 {
     int1 = GetNextNode();
-    //int1 = 1;
     int2 = GetNextNode();
     //int2 = 5; internal Vin node 5 or 2
-    int3 = GetNextNode();   //node 3
-    int4 = GetNextNode();   //node 4
+    //int3 = GetNextNode();   //node 3
+    //int4 = GetNextNode();   //node 4
     soc = soci;
 }
 void Battery::Step(double t, double h)
 {
     double Vin = GetVin(soc);
     double g = 1 / GetR(soc);
-    double gR1 = 1 / GetRt1(soc);
+   /* double gR1 = 1 / GetRt1(soc);
     double gR2 = 1 / GetRt2(soc);
     double gC1 = GetCt1(soc) / h;
-    double gC2 = GetCt2(soc) / h;
+    double gC2 = GetCt2(soc) / h;*/
     double wh = 8.1;
     // R:
-    AddJacobian(int3, int3, g);
-    AddJacobian(int3, int1, -g);
+    AddJacobian(nodepos, nodepos, g);
+    AddJacobian(nodepos, int1, -g);
     AddJacobian(int1, nodeneg, -g);
     AddJacobian(int1, int1, g);
     //Vin
@@ -190,27 +194,39 @@ void Battery::Step(double t, double h)
     AddJacobian(nodeneg, int2, -1);
     AddJacobian(int2, int1, 1);
     AddJacobian(int2, nodeneg, -1);
+
     AddBEquivalent(int2, Vin);
-    //Rt1
-    AddJacobian(int3, int3, gR1);
-    AddJacobian(int3, int4, -gR1);
-    AddJacobian(int4, int3, gR1);
-    AddJacobian(int4, int4, -gR1);
-    //Rt2
-    AddJacobian(int4, int4, gR2);
-    AddJacobian(int4, nodepos, -gR2);
-    AddJacobian(nodepos, int4, gR2);
-    AddJacobian(nodepos, nodepos, -gR2);
-    //Ct1
-    AddJacobian(int3, int3, gC1);
-    AddJacobian(int3, int4, -gC1);
-    AddJacobian(int4, int3, gC1);
-    AddJacobian(int4, int4, -gC1);
-    //Ct2 
-    AddJacobian(int4, int4, gC2);
-    AddJacobian(int4, nodepos, -gC2);
-    AddJacobian(nodepos, int4, gC2);
-    AddJacobian(nodepos, nodepos, -gC2);
+    ////R
+    //AddJacobian(int3, int3, g);
+    //AddJacobian(int3, int1, -g);
+    //AddJacobian(int1, nodeneg, -g);
+    //AddJacobian(int1, int1, g);
+    ////Vin
+    //AddJacobian(int1, int2, 1);
+    //AddJacobian(nodeneg, int2, -1);
+    //AddJacobian(int2, int1, 1);
+    //AddJacobian(int2, nodeneg, -1);
+    //AddBEquivalent(int2, Vin);
+    ////Rt1
+    //AddJacobian(int3, int3, gR1);
+    //AddJacobian(int3, int4, -gR1);
+    //AddJacobian(int4, int3, gR1);
+    //AddJacobian(int4, int4, -gR1);
+    ////Rt2
+    //AddJacobian(int4, int4, gR2);
+    //AddJacobian(int4, nodepos, -gR2);
+    //AddJacobian(nodepos, int4, gR2);
+    //AddJacobian(nodepos, nodepos, -gR2);
+    ////Ct1
+    //AddJacobian(int3, int3, gC1);
+    //AddJacobian(int3, int4, -gC1);
+    //AddJacobian(int4, int3, gC1);
+    //AddJacobian(int4, int4, -gC1);
+    ////Ct2 
+    //AddJacobian(int4, int4, gC2);
+    //AddJacobian(int4, nodepos, -gC2);
+    //AddJacobian(nodepos, int4, gC2);
+    //AddJacobian(nodepos, nodepos, -gC2);
     // update soc:
     soc = soc + GetVoltage() * GetCurrent() * h / (wh * 3600);
 }
@@ -238,19 +254,19 @@ double Battery::GetR(double soc)
     return 0.1562 * exp(-24.37 * soc) + 0.07446;
 }
 
-double Battery::GetRt1(double soc)
-{
-    return 0.3208 * exp(-24.37 * soc) + 0.04669;
-}
-double Battery::GetRt2(double soc)
-{
-    return 6.603 * exp(-155.2 * soc) + 0.04984;
-}
-double Battery::GetCt1(double soc)
-{
-    return -7522.9 * exp(-13.51 * soc) + 703.6;
-}
-double Battery::GetCt2(double soc)
-{
-    return -6056.0 * exp(-27.12 * soc) + 4475;
-}
+//double Battery::GetRt1(double soc)
+//{
+//    return 0.3208 * exp(-24.37 * soc) + 0.04669;
+//}
+//double Battery::GetRt2(double soc)
+//{
+//    return 6.603 * exp(-155.2 * soc) + 0.04984;
+//}
+//double Battery::GetCt1(double soc)
+//{
+//    return -7522.9 * exp(-13.51 * soc) + 703.6;
+//}
+//double Battery::GetCt2(double soc)
+//{
+//    return -6056.0 * exp(-27.12 * soc) + 4475;
+//}

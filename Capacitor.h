@@ -8,7 +8,7 @@ class Capacitor : public Device
 
     // Constructor:
     
-    Capacitor(int nodei, int nodej, double C);
+    Capacitor(int nodei, int nodej, double A, double k, double a0);
 
     // Device interface:
     
@@ -34,7 +34,7 @@ class Capacitor : public Device
     double a0;
 };
 
-Capacitor::Capacitor(int nodei, int nodej, double C)
+Capacitor::Capacitor(int nodei, int nodej, double A, double k, double a0)
 {
     this->nodei = nodei;
     this->nodej = nodej;

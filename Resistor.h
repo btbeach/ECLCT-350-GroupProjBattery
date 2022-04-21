@@ -8,7 +8,7 @@ class Resistor : public Device
 
     // Constructor:
     
-    Resistor(int nodei, int nodej,int n, double R);
+    Resistor(int nodei, int nodej,double A, double k, double a0);
 
     // Device interface (don't need Init() or DC() functions for resistor):
     
@@ -19,33 +19,31 @@ class Resistor : public Device
     double GetVoltage();
     double GetCurrent();
     double GetPower();
+    double GetR(double soc, double A, double k, double a0);
 
     // Member variables:
 
     int nodei;
     int nodej;
-    int n;
     double R;
     double g;
+    double A;
+    double soc;
+    double k;
+    double a0;
 };
 
-Resistor::Resistor(int nodei, int nodej,int n, double R)
+Resistor::Resistor(int nodei, int nodej,double A, double k, double a0)
 {
     this->nodei = nodei;
     this->nodej = nodej;
-    this->n = n;
-    this->R = R;
+    //this->R = R;
+    this->A = A;
+    this->soc = soc;
+    this->k = k;
+    this->a0 = a0;
 
-    /*if (n == 1)
-    {
-        R = 0.3208 * exp(-24.37 * Battery::GetSOC()) + 1;
-    }
-    if (n == 2)
-    {
-        R = ;
-    }*/
-
-    g = 1.0 / R;
+    g = 1.0 / GetR(soc, A, k, a0);
 }
 
 void Resistor::Step(double t, double dt)
@@ -69,4 +67,9 @@ double Resistor::GetCurrent()
 double Resistor::GetPower()
 {
     return GetVoltage() * GetCurrent();
+}
+
+double Resistor::GetR(double soc, double A, double k, double a0)
+{
+    return A * exp(k * soc) + a0;
 }
