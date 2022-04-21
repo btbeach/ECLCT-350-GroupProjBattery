@@ -7,7 +7,7 @@ class Resistor : public Device
 
     // Constructor:
     
-    Resistor(int nodei, int nodej, double R);
+    Resistor(int nodei, int nodej,int n, double R);
 
     // Device interface (don't need Init() or DC() functions for resistor):
     
@@ -23,15 +23,27 @@ class Resistor : public Device
 
     int nodei;
     int nodej;
+    int n;
     double R;
     double g;
 };
 
-Resistor::Resistor(int nodei, int nodej, double R)
+Resistor::Resistor(int nodei, int nodej,int n, double R)
 {
     this->nodei = nodei;
     this->nodej = nodej;
+    this->n = n;
     this->R = R;
+
+    if (n == 1)
+    {
+        R = ;
+    }
+    if (m == 2)
+    {
+        R = ;
+    }
+
     g = 1.0 / R;
 }
 

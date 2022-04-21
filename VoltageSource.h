@@ -70,7 +70,7 @@ void VoltageSource::Init()
 void VoltageSource::Step(double t, double dt)
 {
     //double v = Vdc + Va * sin(2.0 * M_PI * f * t + phi);
-    double v = -1.031 *  * exp(-35.0 * GetSOC()) + a0 + a1 * GetSOC() + a2 * (GetSOC())^2) + a3 * (GetSOC())^3;
+    //double v = -1.031 *  * exp(-35.0 * GetSOC()) + a0 + a1 * GetSOC() + a2 * (GetSOC())^2) + a3 * (GetSOC())^3;
     
     AddJacobian(nodei, nodep, 1.0);
     AddJacobian(nodej, nodep, -1.0);

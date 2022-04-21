@@ -50,10 +50,10 @@ int main()
 	VoltageSource V1(1, 0, 0, Va, f);
 	//Diode D1(1, 2);
 	Resistor Rin(1, 2, Rin);
-	Resistor Rt1(2, 3, Rt1);
-	Capacitor Ct1(2, 0, Ct1);
-	Resistor Rt2(3, 4, Rt2);
-	Capacitor Ct2(3, 4, Ct2);
+	Resistor Rt1(2, 3, R);
+	Capacitor Ct1(2, 0, C);
+	Resistor Rt2(3, 4, R);
+	Capacitor Ct2(3, 4, C);
 	Battery Batt(4, 0, 8.1, 0.9);
 
 	simulator.AddDevice(V1);
