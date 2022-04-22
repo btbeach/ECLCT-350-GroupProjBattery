@@ -104,6 +104,8 @@ double Battery::GetSOC()
 //}
 */
 // Simplified Battery Model
+//#ifndef Battery_Header
+//#define Battery_Header
 
 #include "Simulator.h"
 #include <cmath>
@@ -157,7 +159,7 @@ public:
     int int4;*/
     double soci;
 
-    double soc;  // state of charge
+public : double soc;  // state of charge
 };
 Battery::Battery(int nodepos, int nodeneg, double soci)
 {
@@ -253,6 +255,8 @@ double Battery::GetR(double soc)
     //return 0.1 + (1 - soc) * 0.01;  // simple linear model
     return 0.1562 * exp(-24.37 * soc) + 0.07446;
 }
+
+//#endif;
 
 //double Battery::GetRt1(double soc)
 //{
