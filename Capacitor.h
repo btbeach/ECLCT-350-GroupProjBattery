@@ -1,6 +1,6 @@
 
 #include "Simulator.h"
-#include "Battery.h"
+
 
 class Capacitor : public Device
 {
