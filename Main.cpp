@@ -5,6 +5,7 @@
 #include "VoltageSource.h"
 #include "Diode.h"
 #include "Resistor.h"
+#include "Resistor2.h"
 #include "Capacitor.h"
 #include "Battery.h"
 
@@ -32,8 +33,8 @@
 
 int main()
 {
-	const double h = 1e-6;
-	const double tmax = 5e-3;
+	const double h = 1e-1;
+	const double tmax = 300.0;
 	const double SOCi = 0.9;
 	const double wh = 8.1;
 
@@ -45,16 +46,20 @@ int main()
 	Plotter plotter("Project", 1000, 600);
 	plotter.SetLabels("vBatt (V)", "iBatt (A)", "SOC");
 
-	Simulator simulator(6, 0);
+	Simulator simulator(3, 0);
 
 	//VoltageSource V1(1, 0, 0, Va, f);
 	//Diode D1(1, 2);
 	//Resistor Rin(1, 2, Rin);
+	Battery Batt(1, 0, 0.9);
 	Resistor Rt1(1, 2, 0.3208, -29.14, 0.04669);
 	Capacitor Ct1(1, 2, -752.9, -13.51, 703.6);
-	Resistor Rt2(3, 4, 6.603, -155.2, 0.04984);
-	Capacitor Ct2(3, 4, -6056.0, -27.12, 4475.0);
-	Battery Batt(2, 0, 0.9);
+	Resistor Rt2(2, 3, 6.603, -155.2, 0.04984);
+	Capacitor Ct2(2, 3, -6056.0, -27.12, 4475.0);
+
+	Resistor2 Rload(3, 0, 10.0);
+
+	
 
 	//simulator.AddDevice(V1);
 	//simulator.AddDevice(Rin);
@@ -64,13 +69,20 @@ int main()
 	simulator.AddDevice(Ct2);
 	simulator.AddDevice(Batt);
 
+	simulator.AddDevice(Rload);
+
 	simulator.Init(h, tmax);
 
 	while (simulator.IsRunning())
 	{
+		Rt1.soc = Batt.soc;
+		Ct1.soc = Batt.soc;
+		Rt2.soc = Batt.soc;
+		Ct2.soc = Batt.soc;
+
 		plotter.AddRow(simulator.GetTime(), Batt.GetVoltage(),
-			Batt.GetCurrent(), Batt.GetSOC()); 
-		//, C1.GetVoltage());
+			-1 * Batt.GetCurrent(), Batt.GetSOC());
+
 		
 		simulator.Step();
 	}

@@ -1,13 +1,13 @@
 
 #include "Simulator.h"
 
-class Resistor : public Device
+class Resistor2 : public Device
 {
     public:
 
     // Constructor:
     
-    Resistor(int nodei, int nodej,double A, double k, double a0);
+    Resistor2(int nodei, int nodej,double R);
 
     // Device interface (don't need Init() or DC() functions for resistor):
     
@@ -18,7 +18,6 @@ class Resistor : public Device
     double GetVoltage();
     double GetCurrent();
     double GetPower();
-    double GetR(double soc, double A, double k, double a0);
 
     // Member variables:
 
@@ -26,48 +25,35 @@ class Resistor : public Device
     int nodej;
     double R;
     double g;
-    double A;
-    double soc;
-    double k;
-    double a0;
 };
 
-Resistor::Resistor(int nodei, int nodej,double A, double k, double a0)
+Resistor2::Resistor2(int nodei, int nodej, double R)
 {
     this->nodei = nodei;
     this->nodej = nodej;
-    this->A = A;
-    this->soc = soc;
-    this->k = k;
-    this->a0 = a0; 
+    this->R = R;
+    g = 1 / R;
 }
 
-void Resistor::Step(double t, double dt)
+void Resistor2::Step(double t, double dt)
 {
-    g = 1.0 / GetR(soc, A, k, a0);
-
     AddJacobian(nodei, nodei, g);
     AddJacobian(nodei, nodej, -g);
     AddJacobian(nodej, nodei, -g);
     AddJacobian(nodej, nodej, g);
 }
 
-double Resistor::GetVoltage()
+double Resistor2::GetVoltage()
 {
     return GetStateDifference(nodei, nodej);
 }
 
-double Resistor::GetCurrent()
+double Resistor2::GetCurrent()
 {
     return GetVoltage() * g;
 }
 
-double Resistor::GetPower()
+double Resistor2::GetPower()
 {
     return GetVoltage() * GetCurrent();
-}
-
-double Resistor::GetR(double soc, double A, double k, double a0)
-{
-    return A * exp(k * soc) + a0;
 }

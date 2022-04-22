@@ -26,7 +26,7 @@ class Capacitor : public Device
     
     int nodei;
     int nodej;
-    int nodepos;
+    //int nodepos;
     double C;
     double soc;
     double A;
@@ -38,7 +38,7 @@ Capacitor::Capacitor(int nodei, int nodej, double A, double k, double a0)
 {
     this->nodei = nodei;
     this->nodej = nodej;
-    this->nodepos = nodepos;
+    //this->nodepos = nodepos;
     this->C = C;
     this->soc = soc;
     this->A = A;

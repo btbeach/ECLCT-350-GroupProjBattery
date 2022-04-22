@@ -189,7 +189,7 @@ void Battery::Step(double t, double h)
     // R:
     AddJacobian(nodepos, nodepos, g);
     AddJacobian(nodepos, int1, -g);
-    AddJacobian(int1, nodeneg, -g);
+    AddJacobian(int1, nodepos, -g);
     AddJacobian(int1, int1, g);
     //Vin
     AddJacobian(int1, int2, 1);
@@ -248,7 +248,7 @@ double Battery::GetVin(double soc)
 {
     //return 3.8 * soc;  // simple linear model
     return (-1.031) * exp(-35.0 * soc) + 3.685 + 0.2156 * soc +
-    -0.1178 * pow(soc, 2) + 0.3201 * pow(soc, 3);
+        -0.1178 * soc * soc + 0.3201 * soc * soc * soc;
 }
 double Battery::GetR(double soc)
 {
