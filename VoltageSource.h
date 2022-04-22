@@ -1,6 +1,5 @@
 
 #include "Simulator.h"
-#include "Battery.h"
 
 
 class VoltageSource : public Device
